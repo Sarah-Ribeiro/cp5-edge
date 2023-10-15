@@ -41,11 +41,15 @@ Você também pode configurar o tipo de sensor DHT usado e outras configuraçõe
 4. Use um cliente MQTT para enviar comandos para o tópico `TOPICO_SUBSCRIBE` para controlar o LED.
 5. Monitore os tópicos `TOPICO_PUBLISH` e `TOPICO_PUBLISH_2` para obter informações de telemetria.
 
-## Circuito - Funcionamento e modeload
+## Circuito - Funcionamento e modelo
 
 <p align="center"><img src="circuito.jpeg" alt="project-image""></p>
 
 ### Funcionamento
 
 Neste circuito é apresentado o ESP32 ligado a um sensor de luz o LDR e um sensor de umidade o DHT11, ambos tem a função de calcular e monitorar, dentro do ambiente no qual se encontram. Ambos também podem ser controlados a base do servidor MQTT, Python Requests ou mesmo por meio do Wokwi, já que é possível mudar os números de temperatura, luz, umidade e dentro outros.
+
+## Paho MQTT
+
+O arquivo python se conecta com o mqtt, por meio da dependência paho-mqtt, que consegue chamar os tópicos e por exemplo liga e desligar o led por linhas de comando.
 
