@@ -43,7 +43,7 @@ Você também pode configurar o tipo de sensor DHT usado e outras configuraçõe
 
 ## Circuito - Funcionamento e modeload
 
-<p align="center"><img src="circuito.jpdeg" alt="project-image""></p>
+<p align="center"><img src="circuito.jpeg" alt="project-image""></p>
 
 ### Funcionamento
 
