@@ -14,14 +14,14 @@
 #define TOPICO_SUBSCRIBE "/TEF/lamp108/cmd"       // Tópico MQTT de escuta
 #define TOPICO_PUBLISH "/TEF/lamp108/attrs"       // Tópico MQTT de envio de informações para Broker
 #define TOPICO_PUBLISH_2 "/TEF/lamp108/attrs/l"   // Tópico MQTT de envio de informações para Broker
-                                                  // IMPORTANTE: recomendamos fortemente alterar os nomes desses tópicos. Caso contrário, há grandes chances de você controlar e monitorar o ESP32 de outra pessoa.
+                                                // IMPORTANTE: recomendamos fortemente alterar os nomes desses tópicos. Caso contrário, há grandes chances de você controlar e monitorar o ESP32 de outra pessoa.
 #define ID_MQTT "fiware_108" // ID MQTT (para identificação de sessão)
-                             // IMPORTANTE: este deve ser único no broker (ou seja, se um cliente MQTT tentar entrar com o mesmo ID de outro já conectado ao broker, o broker irá fechar a conexão de um deles).
-                             // O valor "n" precisa ser único!
+                            // IMPORTANTE: este deve ser único no broker (ou seja, se um cliente MQTT tentar entrar com o mesmo ID de outro já conectado ao broker, o broker irá fechar a conexão de um deles).
+                            // O valor "n" precisa ser único!
 
 #include "DHT.h"
 
-#define DHTPIN 4      // Pino digital conectado ao sensor DHT
+#define DHTPIN 4     // Pino digital conectado ao sensor DHT
 #define DHTTYPE DHT22 // Tipo do sensor DHT (DHT 22)
 
 DHT dht(DHTPIN, DHTTYPE);
@@ -30,7 +30,7 @@ const char *SSID = "Wokwi-GUEST"; // SSID / nome da rede Wi-Fi que deseja se con
 const char *PASSWORD = "";        // Senha da rede Wi-Fi que deseja se conectar
 
 const char *BROKER_MQTT = "46.17.108.113"; // URL do broker MQTT que se deseja utilizar
-int BROKER_PORT = 1883;                    // Porta do Broker MQTT
+int BROKER_PORT = 1883;                   // Porta do Broker MQTT
 
 int D4 = 2;
 
@@ -216,20 +216,22 @@ void loop()
         return;
     }
 
-    if (t > 13) 
-    {
+    if (t > 13) {
       Serial.println(F("Temperatura maior do que a deseja!"));
     }
 
-    if (h > 70) 
-    {
-      Serial.println(F("Humidade maior do que a deseja!"));
+    if (t < 3) {
+      Serial.println(F("Temperatura menor do que a deseja!"));
+    }
+
+    if (h > 70) {
+      Serial.println(F("Umidade maior do que a deseja!"));
     }
 
     float hif = dht.computeHeatIndex(f, h);
     float hic = dht.computeHeatIndex(t, h, false);
 
-    Serial.print(F("Humidade: "));
+    Serial.print(F("Umidade: "));
     Serial.print(h);
     Serial.print(F("%  Temperatura: "));
     Serial.print(t);
