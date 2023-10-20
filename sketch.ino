@@ -8,26 +8,29 @@
 
 #include <WiFi.h>
 #include <PubSubClient.h> // Importa a Biblioteca PubSubClient
+#include "DHT.h"
 
 // Defines:
 // Defines de ID MQTT e tópicos para publicação e subscrição denominados TEF (Telemetria e Monitoramento de Equipamentos)
-#define TOPICO_SUBSCRIBE "/TEF/lamp108/cmd"       // Tópico MQTT de escuta
-#define TOPICO_PUBLISH "/TEF/lamp108/attrs"       // Tópico MQTT de envio de informações para Broker
-#define TOPICO_PUBLISH_2 "/TEF/lamp108/attrs/l"   // Tópico MQTT de envio de informações para Broker
+#define TOPICO_SUBSCRIBE "/TEF/lamp113/cmd"       // Tópico MQTT de escuta
+#define TOPICO_PUBLISH "/TEF/lamp113/attrs"       // Tópico MQTT de envio de informações para Broker
+#define TOPICO_PUBLISH_2 "/TEF/lamp113/attrs/l"   // Tópico MQTT de envio de informações para Broker
+#define TOPICO_PUBLISH_3 "/TEF/lamp113/attrs/t"   // Tópico MQTT de envio de informações para Broker
+#define TOPICO_PUBLISH_4 "/TEF/lamp113/attrs/h"   // Tópico MQTT de envio de informações para Broker
                                                 // IMPORTANTE: recomendamos fortemente alterar os nomes desses tópicos. Caso contrário, há grandes chances de você controlar e monitorar o ESP32 de outra pessoa.
-#define ID_MQTT "fiware_108" // ID MQTT (para identificação de sessão)
+#define ID_MQTT "fiware_113" // ID MQTT (para identificação de sessão)
                             // IMPORTANTE: este deve ser único no broker (ou seja, se um cliente MQTT tentar entrar com o mesmo ID de outro já conectado ao broker, o broker irá fechar a conexão de um deles).
                             // O valor "n" precisa ser único!
 
-#include "DHT.h"
+
 
 #define DHTPIN 4     // Pino digital conectado ao sensor DHT
-#define DHTTYPE DHT22 // Tipo do sensor DHT (DHT 22)
+#define DHTTYPE DHT11 // Tipo do sensor DHT (DHT 22)
 
 DHT dht(DHTPIN, DHTTYPE);
 
-const char *SSID = "Wokwi-GUEST"; // SSID / nome da rede Wi-Fi que deseja se conectar
-const char *PASSWORD = "";        // Senha da rede Wi-Fi que deseja se conectar
+const char *SSID = "FIAP-IBM"; // SSID / nome da rede Wi-Fi que deseja se conectar
+const char *PASSWORD = "Challenge@23!";        // Senha da rede Wi-Fi que deseja se conectar
 
 const char *BROKER_MQTT = "46.17.108.113"; // URL do broker MQTT que se deseja utilizar
 int BROKER_PORT = 1883;                   // Porta do Broker MQTT
@@ -56,7 +59,7 @@ void setup()
     delay(5000);
     MQTT.publish(TOPICO_PUBLISH, "s|off");
 
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println(F("DHTxx test"));
 
     dht.begin();
@@ -82,6 +85,7 @@ void initMQTT()
 {
     MQTT.setServer(BROKER_MQTT, BROKER_PORT);
     MQTT.setCallback(mqtt_callback);
+    reconnectMQTT();
 }
 
 void mqtt_callback(char *topic, byte *payload, unsigned int length)
@@ -97,13 +101,13 @@ void mqtt_callback(char *topic, byte *payload, unsigned int length)
     Serial.print("- Mensagem recebida: ");
     Serial.println(msg);
 
-    if (msg.equals("lamp108@on|"))
+    if (msg.equals("lamp113@on|"))
     {
         digitalWrite(D4, HIGH);
         EstadoSaida = '1';
     }
 
-    if (msg.equals("lamp108@off|"))
+    if (msg.equals("lamp113@off|"))
     {
         digitalWrite(D4, LOW);
         EstadoSaida = '0';
@@ -256,6 +260,12 @@ void loop()
     
     dtostrf(luminosity, 4, 2, msgBuffer);
     MQTT.publish(TOPICO_PUBLISH_2, msgBuffer);
+
+       dtostrf(t, 4, 2, msgBuffer);
+    MQTT.publish(TOPICO_PUBLISH_3, msgBuffer);
+
+       dtostrf(h, 4, 2, msgBuffer);
+    MQTT.publish(TOPICO_PUBLISH_4, msgBuffer);
 
     MQTT.loop();
 }
