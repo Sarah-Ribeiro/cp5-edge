@@ -1,6 +1,6 @@
 # Checkpoint 5 - Edge Computing
 
-Este é um programa para o ESP32 que permite controlar um LED onboard e enviar informações de telemetria para um broker MQTT. Ele também lê a temperatura e um sensor de luminosidade e publica os dados relevantes no broker MQTT. O programa foi desenvolvido com base em diferentes revisões e colaborações. Abaixo está uma breve descrição de seu funcionamento e configuração.
+Este é um programa para o ESP32 que permite controlar um LED onboard e enviar informações de telemetria para um broker MQTT. Ele também lê a temperatura e um sensor de luminosidade e publica os dados relevantes no broker MQTT.
 
 ## Funcionalidades
 
@@ -28,10 +28,6 @@ Antes de usar este programa, você deve configurar algumas informações, como a
 - TOPICO_SUBSCRIBE: Tópico MQTT usado para receber comandos para controlar o LED.
 - TOPICO_PUBLISH: Tópico MQTT usado para publicar informações de telemetria.
 - TOPICO_PUBLISH_2: Tópico MQTT adicional para publicar informações de luminosidade.
-
-### Outras configurações
-
-Você também pode configurar o tipo de sensor DHT usado e outras configurações específicas do seu hardware.
 
 ## Uso
 
